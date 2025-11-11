@@ -1,11 +1,10 @@
 import React from 'react';
 import { Link, useForm } from '@inertiajs/react';
 
-const EmployeeTasksCreate = () => {
+const EmployeeTasksCreate = ({ employees }) => {
     const { data, setData, post, processing, errors } = useForm({
         date: new Date().toISOString().split('T')[0],
-        employee_name: '',
-        designation: '',
+        employee_id: '',
         todo_title: '',
         assigned_by: ''
     });
@@ -46,36 +45,25 @@ const EmployeeTasksCreate = () => {
                                 {errors.date && <div className="text-red-600 text-sm mt-1">{errors.date}</div>}
                             </div>
 
-                            {/* Employee Name Field */}
+                            {/* Employee Selection Field */}
                             <div>
-                                <label htmlFor="employee_name" className="block text-sm font-medium text-gray-700 mb-2">
-                                    Employee Name *
+                                <label htmlFor="employee_id" className="block text-sm font-medium text-gray-700 mb-2">
+                                    Employee *
                                 </label>
-                                <input
-                                    type="text"
-                                    id="employee_name"
-                                    value={data.employee_name}
-                                    onChange={e => setData('employee_name', e.target.value)}
+                                <select
+                                    id="employee_id"
+                                    value={data.employee_id}
+                                    onChange={e => setData('employee_id', e.target.value)}
                                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                    placeholder="Enter employee name"
-                                />
-                                {errors.employee_name && <div className="text-red-600 text-sm mt-1">{errors.employee_name}</div>}
-                            </div>
-
-                            {/* Designation Field */}
-                            <div>
-                                <label htmlFor="designation" className="block text-sm font-medium text-gray-700 mb-2">
-                                    Designation *
-                                </label>
-                                <input
-                                    type="text"
-                                    id="designation"
-                                    value={data.designation}
-                                    onChange={e => setData('designation', e.target.value)}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                    placeholder="Enter designation"
-                                />
-                                {errors.designation && <div className="text-red-600 text-sm mt-1">{errors.designation}</div>}
+                                >
+                                    <option value="">Select an employee</option>
+                                    {employees && employees.map((employee) => (
+                                        <option key={employee.id} value={employee.id}>
+                                            {employee.name} - {employee.designation}
+                                        </option>
+                                    ))}
+                                </select>
+                                {errors.employee_id && <div className="text-red-600 text-sm mt-1">{errors.employee_id}</div>}
                             </div>
 
                             {/* To-Do Title Field */}

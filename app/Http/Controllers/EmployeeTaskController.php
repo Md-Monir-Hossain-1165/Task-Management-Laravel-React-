@@ -21,7 +21,13 @@ class EmployeeTaskController extends Controller
 
     public function create()
     {
-        return Inertia::render('EmployeeTasks/Create');
+        $employees = Employee::where('is_active', true)
+            ->orderBy('name')
+            ->get(['id', 'name', 'designation']);
+    
+        return Inertia::render('EmployeeTasks/Create', [
+            'employees' => $employees
+        ]);
     }
 
     public function store(Request $request)
